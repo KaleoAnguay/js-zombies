@@ -168,11 +168,43 @@ class Food extends Item {
   }
 
   takeItem(item) {
-    if(item < 3) {
+    if(this._pack.length < 3) {
+      this._pack.push(item);
+      return console.log('NEW ITEM');
+    } else {
+      return  console.log('CANT PUT IN BAG!');
+    }
+  }
+
+  discardItem(item) {
+    if(this._pack.indexOf(item) === -1 ){
+      console.log('You dont have a item to remove');
+        return false;
+    } else {
+      this._pack.splice(this._pack.indexOf(item), 1);
+       console.log(this._name + "now has" + this._pack.length + ' your item has now been discarded');
+       return true;
+    }
+  }
+
+  checkPack(pack){
+    console.log(this.getPack());
+  }
+
+  equip(itemToEquip) {
+    if(this._equipped !== false) {
+      this._pack[this._pack.indexOf(itemToEquip)] = this._equipped;
+      this._equipped = itemToEquip;
+    } else if (this._pack.indexOf(itemToEquip) === -1 || itemToEquip instanceof Weapon === false) {
+
+    }  else {
+      this._equipped = itemToEquip;
+      this.discardItem(itemToEquip);
 
     }
   }
- }
+}
+
 
 
 
