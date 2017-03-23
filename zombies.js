@@ -1,3 +1,5 @@
+
+
 /**
  * Class => Item(name)
  * -----------------------------
@@ -7,7 +9,18 @@
  * @param {string} name     The item's name.
  * @property {string} name
  */
+class Item{
+  constructor(name) {
+    this._name = name;
+  }
+  get name() {
+    return this._name;
+  }
 
+  set name(x) {
+    this._name = x;
+  }
+}
 
 /**
  * Class => Weapon(name, damage)
@@ -24,6 +37,23 @@
  * @param {number} damage   The weapon's damage.
  * @property {number} damage
  */
+
+class Weapon extends Item {
+  constructor(name,damage) {
+    super(name);
+    this._damage = damage;
+  }
+  get damage() {
+    return this._damage;
+  }
+  set damage(str) {
+    if(str !== 'number') {
+      this._damage = str;
+    } else {
+      return new TypeError('NEED A NUMBER');
+    }
+  }
+}
 
 
 /**
@@ -48,7 +78,24 @@
  * @param {number} energy     The energy the food provides.
  * @property {number} energy
  */
+class Food extends Item {
+  constructor(name, energy) {
+    super(name);
+    this._energy = energy;
+  }
 
+  get energy() {
+    return this._energy;
+  }
+
+  set energy(x) {
+    if(x !== 'number') {
+      this.energy = x;
+    } else {
+      return new TypeError('Need a number!!');
+    }
+  }
+}
 
 /**
  * Food Extends Item Class
@@ -79,6 +126,55 @@
  * @property {method} getMaxHealth         Returns private variable `maxHealth`.
  */
 
+ class Player {
+  constructor(name, health, strength, speed) {
+    this._name  = name;
+    this._health = health;
+    this._strength = strength;
+    this._speed = speed;
+    this.isAlive = true;
+    this._equipped = false;
+    this._pack = [];
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  get health() {
+    return this._health;
+  }
+
+  get strength() {
+    return this._strength;
+  }
+
+  get speed() {
+    return this._speed;
+  }
+
+  get equipped() {
+    return this._equipped;
+  }
+
+   getPack() {
+    return this._pack;
+  }
+
+  getMaxHealth() {
+    return this._health;
+
+
+  }
+
+  takeItem(item) {
+    if(item < 3) {
+
+    }
+  }
+ }
+
+
 
 /**
  * Player Class Method => checkPack()
@@ -91,6 +187,9 @@
  *
  * @name checkPack
  */
+
+
+
 
 
 /**
