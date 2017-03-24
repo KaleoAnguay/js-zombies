@@ -135,6 +135,7 @@ class Food extends Item {
     this.isAlive = true;
     this._equipped = false;
     this._pack = [];
+    this._maxHealth = health;
   }
 
   get name() {
@@ -145,12 +146,24 @@ class Food extends Item {
     return this._health;
   }
 
+  set health(health) {
+    this._health = health;
+  }
+
   get strength() {
     return this._strength;
   }
 
+  set strength(strength) {
+    this._strength = strength;
+  }
+
   get speed() {
     return this._speed;
+  }
+
+  set speed(speed) {
+    this._speed = speed;
   }
 
   get equipped() {
@@ -162,7 +175,7 @@ class Food extends Item {
   }
 
   getMaxHealth() {
-    return this._health;
+    return this._maxHealth;
 
 
   }
@@ -195,7 +208,7 @@ class Food extends Item {
     if(this._equipped !== false) {
       this._pack[this._pack.indexOf(itemToEquip)] = this._equipped;
       this._equipped = itemToEquip;
-    } else if (this._pack.indexOf(itemToEquip) === -1 || itemToEquip instanceof Weapon === false) {
+    } else if(this._pack.indexOf(itemToEquip) === -1 || itemToEquip instanceof Weapon === false) {
 
     }  else {
       this._equipped = itemToEquip;
@@ -203,8 +216,53 @@ class Food extends Item {
 
     }
   }
-}
 
+  eat(itemToEat) {
+    if(this._pack.indexOf(itemToEat) === -1 || itemToEat instanceof Food === false) {
+      return false;
+    } else if (this.getMaxHealth() - this._health <= itemToEat._energy) {
+      this._health = this.getMaxHealth();
+    } else{
+      this._health += itemToEat._energy;
+    }
+    this.discardItem(itemToEat);
+  }
+
+  useItem(item) {
+    if(item instanceof Weapon === true) {
+      this.equip(item);
+    } if(item instanceof Food === true) {
+      this.eat(item);
+    }
+  }
+
+  equippedWith() {
+    if(this._equipped !== false) {
+      console.log(this.name + '' + 'is equipped with' + ' '  + this.equipped.name);
+      return this.equipped.name;
+    } else {
+      return false;
+    }
+  }
+}
+/**
+ * Player Class Method => eat(itemToEat)
+ * -----------------------------
+ * Player eats a food item, restoring their health.
+ *
+ * Player can only eat Food instances.
+ * Player can only eat food items from their pack.
+ *
+ * Remove itemToEat from the pack.
+ * Increase the player's health by the food's energy amount, but do not
+ *   exceed the player's max health.  If exceeded, simply set player's health
+ *   to max health instead.
+ * To access the player's max health, be sure to use Player's getMaxHealth method.
+ * You should be able to invoke this function on a Player instance.
+ *
+ * @name eat
+ * @param {Food} itemToEat  The food item to eat.
+ */
 
 
 
@@ -355,7 +413,40 @@ class Food extends Item {
  * @property {number} speed
  * @property {boolean} isAlive      Default value should be `true`.
  */
+class Zombie {
+  constructor(health, strength, speed) {
+    this._health = health;
+    this._strength = strength;
+    this._speed = speed;
+    this._maxHealth = health;
+    this.isAlive = true;
+  }
 
+  get health() {
+    return this._health;
+  }
+
+  set health(health) {
+    this._health = health;
+  }
+
+  get strength() {
+    return this._strength;
+  }
+
+  set strength(strength) {
+    this._strength = strength;
+  }
+
+  get speed() {
+    return this._speed;
+  }
+
+  set speed(speed) {
+    this._speed = speed;
+  }
+
+}
 
 /**
  * Class => FastZombie(health, strength, speed)
@@ -372,12 +463,21 @@ class Food extends Item {
  * @param {number} speed            The zombie's speed.
  */
 
+class FastZombie extends Zombie {
+  constructor(health,strength,speed) {
+    super(health,strength,speed);
+  }
+}
 
 /**
  * FastZombie Extends Zombie Class
  * -----------------------------
  */
-
+class StrongZombie extends Zombie {
+  constructor(health,strength,speed) {
+    super(health,strength,speed);
+  }
+}
 
 
 /**
@@ -394,7 +494,11 @@ class Food extends Item {
  * @param {number} strength         The zombie's strength.
  * @param {number} speed            The zombie's speed.
  */
-
+class RangedZombie extends Zombie {
+  constructor(health,strength,speed) {
+    super(health,strength,speed);
+  }
+}
 
 /**
  * StrongZombie Extends Zombie Class
@@ -417,7 +521,11 @@ class Food extends Item {
  * @param {number} strength         The zombie's strength.
  * @param {number} speed            The zombie's speed.
  */
-
+class ExplodingZombie extends Zombie {
+  constructor(health,strength,speed) {
+    super(health,strength,speed);
+  }
+}
 
 /**
  * RangedZombie Extends Zombie Class
